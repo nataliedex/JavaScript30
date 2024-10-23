@@ -38,33 +38,75 @@
     
     // Array.prototype.filter()
     // 1. Filter the list of inventors for those who were born in the 1500's
-    let born1500s = inventors.filter(people => 
-      people.year >=1500 && people.year < 1600
-    );
-    console.log(born1500s);
+    const died1900s = inventors.filter(inventor => inventor.passed >= 1900 && inventor.passed < 2000);
+    // console.log(died1900s);
+
+    const inventorWithYearsLived1900 = died1900s.map(inventor => {
+      const yearsLived = inventor.passed - inventor.year;
+      return{...inventor, yearsLived};
+    });
+    // console.log(inventorWithYearsLived1900);
+
+    const sortedBornYearForDied1900s = inventorWithYearsLived1900.sort((a,b) =>
+      a.year - b.year
+  );
+  // console.log(sortedBornYearForDied1900s);
+
+
+    const born1800s = inventors.filter(inventor => inventor.year >=1800 && inventor.year < 1900);
+    // console.log(born1800s);
+
+    const sortedBorn1800s = born1800s.sort((a,b) => a.year - b.year);
+    // console.log(sortedBorn1800s);
+
+    const livedLongest = born1800s.sort((a,b) => (a.passed - a.year) - (b.passed - b.year));
+    // console.log(livedLongest);
+
+    // ad years lived
+    const inventorsWithYearsLived = born1800s.map(inventor => {
+      const yearsLived = inventor.passed - inventor.year;
+      return {...inventor, yearsLived};
+    });
+
+    // console.log(inventorsWithYearsLived);
+
+
+
+
+
+
+
+
+
+
+
+    // let born1500s = inventors.filter(people => 
+    //   people.year >=1500 && people.year < 1600
+    // );
+    // console.log(born1500s);
     
     // Array.prototype.map()
     // 2. Give us an array of the inventors first and last names
     
     const firstLast = inventors.map(inventor => `${inventor.first} ${inventor.last}`);
-    console.log(firstLast);
+    // console.log(firstLast);
 
     // Array.prototype.sort()
     // 3. Sort the inventors by birthdate, oldest to youngest
     const sortedInventors = inventors.sort((a,b) => a.year - b.year);
-    console.log(sortedInventors);
+    // console.log(sortedInventors);
 
     // Array.prototype.reduce()
     // 4. How many years did all the inventors live all together?
     const totalYears = inventors.reduce((acc, inventor) => {
       return acc + (inventor.passed - inventor.year);
     },0);
-    console.log(totalYears);
+    // console.log(totalYears);
     
 
     // 5. Sort the inventors by years lived
     const yearsLived = inventors.sort((a,b) => (a.passed - a.year) - (b.passed - b.year));
-    console.log(yearsLived);
+    // console.log(yearsLived);
 
     // 6. create a list of Boulevards in Paris that contain 'de' anywhere in the name
     // https://en.wikipedia.org/wiki/Category:Boulevards_in_Paris
@@ -78,7 +120,7 @@
 
       return lastA.localeCompare(lastB);
     });
-    console.log(sortByLastName);
+    // console.log(sortByLastName);
 
     // 8. Reduce Exercise
     // Sum up the instances of each of these
@@ -87,7 +129,93 @@
       acc[vehical] = (acc[vehical] || 0) + 1;
       return acc;
     }, {});
-    console.log(dataSort);
+    // console.log(dataSort);
+
+
+    // Your goal in this kata is to implement a difference function, which subtracts one list from another and returns the result.
+    // It should remove all values from list a, which are present in list b keeping their order.
+
+    function arrayDiff(a,b){
+      let newArray = [];
+      for(var i = 0; i < a.length; i++){
+        if(!(b.includes(a[i]))){
+          newArray.push(a[i]);
+        }
+      } 
+      return newArray;
+    }
+
+    // console.log(arrayDiff([1,2], [1]));
+    // console.log(arrayDiff([1,2,2], [1]));
+    // console.log(arrayDiff([], [1,2]));
+    // console.log(arrayDiff([1,2,3], [1,2]));
+
+  function sumTwoSmallestNumbers(numbers) {  
+    let sortedNumbers = numbers.sort((a, b) => a - b);
+    return sortedNumbers[0] + sortedNumbers[1];
+
+  //Code here
+}
+
+// console.log(sumTwoSmallestNumbers([5, 8, 12, 19, 22]));
+// console.log(sumTwoSmallestNumbers([15, 28, 4, 2, 43]));
+// console.log(sumTwoSmallestNumbers([23, 71, 33, 82, 1]));
+
+// *Variables*
+// Declare a variable and assign it to a sentance as a string. Alert if the sentance is a question
+// const name = "Hello my name is Natalie?"
+
+// if(name.endsWith("?")){
+//   alert("This is a question")
+// }
+
+//Declare a variable, assign it a string of multiple words, replace every "jr. dev" with "software engineer", and print it to the console
+let str = "I am looking for jr. dev positions.";
+console.log(str.replaceAll("jr. dev", "software engineering"));
+
+// *Functions*
+// Create a function that returns rock, paper, or scissors as randomly as possible
+function rockPaperScissors(){
+  let assignment;
+  const assignmentValue = Math.floor((Math.random ()) * 3);
+  if(assignmentValue === 0){
+    assignment = "Rock";
+  } else if(assignmentValue === 1){
+    assignment = "Paper";
+  } else {
+    assignment = "Scissors";
+  }
+  return assignment;
+}
+console.log(rockPaperScissors());
+// *Conditionals*
+//Create a function that takes in a choice (rock, paper, or scissors) and determines if they won a game of rock paper scissors against a bot using the above function
+function yourChoice(choice){
+  const computerChoice = rockPaperScissors();
+  
+  console.log(`You chose ${choice} and Computer chose ${computerChoice}`);
+  if((computerChoice === "Rock" && choice === "Rock") || 
+  (computerChoice === "Paper" && choice === "Paper") || 
+  (computerChoice === "Scissors" && choice === "Scissors")){
+    console.log("Draw");
+  } else if((computerChoice === "Rock" && choice === "Scissors") ||
+  (computerChoice === "Paper" && choice === "Rock") ||
+  (computerChoice === "Scissors" && choice === "Paper")){
+    console.log("Computer Wins");
+  } else {
+    console.log("You Win!");
+  }
+}
+
+yourChoice("Rock");
+//*Loops*
+//Create a function that takes an array of choices. Play the game x times where x is the number of choices in the array. Print the results of each game to the console.
+function playGame(games){
+  games.forEach((game) => yourChoice(game));
+}
+
+playGame(["Rock", "Paper", "Scissors"]);
+    
   </script>
 </body>
 </html>
